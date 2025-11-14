@@ -3,11 +3,11 @@
 import { Select, SelectItem } from "@heroui/select";
 import { useEffect, useState } from "react";
 import { Input } from "@heroui/input";
-
-import { ArrowDown, ArrowUp, SearchIcon } from "@/components/icons";
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 import { Accordion, AccordionItem } from "@heroui/accordion";
+
+import { ArrowDown, ArrowUp, SearchIcon } from "@/components/icons";
 
 const types = [
   { key: "tv", label: "TV" },

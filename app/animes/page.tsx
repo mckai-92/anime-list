@@ -14,7 +14,7 @@ import {
 } from "@heroui/drawer";
 import { Button } from "@heroui/button";
 import { useDisclosure } from "@heroui/modal";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { AnimeDetails } from "@/components/anime-details";
@@ -108,22 +108,22 @@ export default function Animes() {
     }
 
     if (column.field === "action") {
-      const openDetails = (e: MouseEvent, row: AnimeInterface) => {
-        e.stopPropagation();
+      const openDetails = (row: AnimeInterface) => {
         setAnimeRecord(row);
         onOpen();
       };
 
       return (
         <Tooltip content="Preview">
-          <span
-            className="text-default-400 cursor-pointer active:opacity-50"
-            onClick={(e) => {
-              openDetails(e, row);
+          <Button
+            isIconOnly
+            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
+            onPress={() => {
+              openDetails(row);
             }}
           >
             <EyeIcon />
-          </span>
+          </Button>
         </Tooltip>
       );
     }

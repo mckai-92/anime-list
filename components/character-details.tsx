@@ -209,7 +209,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
               >
                 <div>
                   <Card className="p-4 bg-background/40">
-                    <Photos id={data?.mal_id} type="character" />
+                    <Photos id={data?.mal_id} type="characters" />
                   </Card>
                 </div>
               </Tab>

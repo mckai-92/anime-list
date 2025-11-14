@@ -169,6 +169,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                   <iframe
                     height={200}
                     src={data?.trailer?.embed_url}
+                    title="Trailer"
                     width={300}
                   />
 
@@ -177,7 +178,14 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                         flex flex-col absolute top-0 left-0 right-0 bottom-0 items-center justify-center
                         cursor-pointer text-default-500 text-lg rounded-large
                         bg-content1/70 backdrop-blur-[3px]"
+                    role="button"
+                    tabIndex={0}
                     onClick={onOpen}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        onOpen();
+                      }
+                    }}
                   >
                     <span>TRAILER</span>
                     <PlayIcon
@@ -203,6 +211,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                             <iframe
                               className="h-[50vh]"
                               src={data?.trailer?.embed_url}
+                              title="Trailer"
                             />
                           </ModalBody>
                         </>

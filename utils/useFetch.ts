@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import useSWR from "swr";
 
 const api = "https://api.jikan.moe/v4";
@@ -51,7 +50,7 @@ export function useFetchData(url: string) {
 export function useFetchAnimeSearch(
   params: { [key: string]: any },
   page: number,
-  limit: number
+  limit: number,
 ) {
   let params_string = Object.keys(params)
     .map((p) => {
@@ -60,7 +59,7 @@ export function useFetchAnimeSearch(
     .join("&");
 
   return useFetchData(
-    `${api}/anime?${params_string}&page=${page}&limit=${limit}`
+    `${api}/anime?${params_string}&page=${page}&limit=${limit}`,
   );
 }
 
@@ -107,4 +106,8 @@ export function useFetchMangaCharactersRecord(id: number | undefined) {
 }
 export function useFetchMangaImages(id: number | undefined) {
   return useFetchRecord(`${api}/manga/${id}/pictures`);
+}
+
+export function useFetchImages(id: number | undefined, type: string) {
+  return useFetchRecord(`${api}/${type}/${id}/pictures`);
 }

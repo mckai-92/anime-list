@@ -7,31 +7,12 @@ import { Modal, ModalContent, ModalBody, useDisclosure } from "@heroui/modal";
 
 import { itemsGrid } from "./primitives";
 
-import {
-  useFetchAnimeImages,
-  useFetchCharacterImages,
-  useFetchMangaImages,
-} from "@/utils/useFetch";
+import { useFetchImages } from "@/utils/useFetch";
 import { ImageInterface } from "@/types";
 
 export const Photos = ({ id, type }: { id: number; type: string }) => {
   let [photos, setPhotos] = useState([]);
-  let data: any;
-
-  switch (type) {
-    case "anime":
-      data = useFetchAnimeImages(id).data;
-      break;
-    case "manga":
-      data = useFetchMangaImages(id).data;
-      break;
-    case "character":
-      data = useFetchCharacterImages(id).data;
-
-      break;
-    default:
-      break;
-  }
+  const { data } = useFetchImages(id, type);
 
   useEffect(() => {
     setPhotos(data);

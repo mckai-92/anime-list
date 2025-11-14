@@ -35,8 +35,8 @@ export const Table = ({
         onRowAction={(key) => onRowAction?.(key)}
       >
         <TableHeader>
-          {columns.map((column: TableColumnInterface) => (
-            <TableColumn allowsSorting>
+          {columns.map((column: TableColumnInterface, index: number) => (
+            <TableColumn key={index} allowsSorting>
               {column.label.toUpperCase()}
             </TableColumn>
           ))}
@@ -45,8 +45,8 @@ export const Table = ({
         <TableBody>
           {items!?.map((item: object, index: number) => (
             <TableRow key={index}>
-              {columns.map((column: TableColumnInterface) => (
-                <TableCell>
+              {columns.map((column: TableColumnInterface, index: number) => (
+                <TableCell key={index}>
                   {renderCell(
                     item[column.field as keyof typeof item],
                     column,
