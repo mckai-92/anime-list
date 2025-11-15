@@ -1,5 +1,15 @@
-"use client";
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const filters = await searchParams;
 
-export default function Anime() {
-  return <div>Empty page</div>;
+  console.log(filters);
+
+  return (
+    <>
+      <div>Empty page</div>
+    </>
+  );
 }

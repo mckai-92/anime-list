@@ -16,6 +16,7 @@ export interface PageInterface {
 export interface TableColumnInterface {
   field: string;
   label: string;
+  class_name?: string;
 }
 
 export interface ImageInterface {

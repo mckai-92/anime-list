@@ -23,46 +23,20 @@ export const siteConfig = {
   ],
   navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
-    },
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-    },
-    {
-      label: "Projects",
-      href: "/projects",
-    },
-    {
-      label: "Team",
-      href: "/team",
-    },
-    {
-      label: "Calendar",
-      href: "/calendar",
-    },
-    {
-      label: "Settings",
-      href: "/settings",
-    },
-    {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
-    },
-  ],
-  dashboardItems: [
-    {
-      label: "Dashboard",
-      page: "dashboard",
+      label: "Home",
+      href: "/",
     },
     {
       label: "Animes",
-      page: "animes",
+      href: "/animes",
+    },
+    {
+      label: "Manga",
+      href: "/mangas",
+    },
+    {
+      label: "Characters",
+      href: "/characters",
     },
   ],
   links: {

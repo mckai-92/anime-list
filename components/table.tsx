@@ -36,7 +36,11 @@ export const Table = ({
       >
         <TableHeader>
           {columns.map((column: TableColumnInterface, index: number) => (
-            <TableColumn key={index} allowsSorting>
+            <TableColumn
+              key={index}
+              allowsSorting
+              className={column?.class_name}
+            >
               {column.label.toUpperCase()}
             </TableColumn>
           ))}
@@ -46,7 +50,7 @@ export const Table = ({
           {items!?.map((item: object, index: number) => (
             <TableRow key={index}>
               {columns.map((column: TableColumnInterface, index: number) => (
-                <TableCell key={index}>
+                <TableCell key={index} className={column?.class_name}>
                   {renderCell(
                     item[column.field as keyof typeof item],
                     column,

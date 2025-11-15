@@ -5,37 +5,13 @@ import { useEffect, useState } from "react";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
-import { Accordion, AccordionItem } from "@heroui/accordion";
+import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 
 import { ArrowDown, ArrowUp, SearchIcon } from "@/components/icons";
-
-const types = [
-  { key: "tv", label: "TV" },
-  { key: "movie", label: "Movie" },
-  { key: "ova", label: "OVA" },
-  { key: "special", label: "Special" },
-  { key: "ona", label: "ONA" },
-  { key: "music", label: "Music" },
-  { key: "cm", label: "CM" },
-  { key: "pv", label: "PV" },
-  { key: "tv_special", label: "TV Special" },
-];
-const order_by_types = [
-  { key: "mal_id", label: "MAL ID" },
-  { key: "title", label: "Title" },
-  { key: "start_date", label: "Start Date" },
-  { key: "end_date", label: "End Date" },
-  { key: "episodes", label: "Episodes" },
-  { key: "score", label: "Score" },
-  { key: "scored_by", label: "Scored By" },
-  { key: "rank", label: "Rank" },
-  { key: "popularity", label: "Popularity" },
-  { key: "members", label: "Members" },
-  { key: "favorites", label: "Favorites" },
-];
+import { data } from "@/config/data";
 
 const SortButton = ({
-  direction = "asc",
+  direction,
   onChange,
 }: {
   direction?: string;
@@ -43,13 +19,16 @@ const SortButton = ({
 }) => {
   const [order, setOrder] = useState(direction === "asc" ? true : false);
 
+  useEffect(() => {
+    onChange?.(order ? "asc" : "desc");
+  }, [order]);
+
   return (
     <Tooltip content={order ? "Ascending" : "Descending"}>
       <Button
         isIconOnly
         onPress={() => {
           setOrder(!order);
-          onChange?.(order ? "asc" : "desc");
         }}
       >
         {order ? <ArrowUp size={18} /> : <ArrowDown size={18} />}
@@ -59,6 +38,10 @@ const SortButton = ({
 };
 
 export default function SearchFilter({ onChange }: { onChange?: Function }) {
+  /**
+   * @prop searchTerm is string that is bound to input field
+   * @prop debouncedSearchTerm is populated after delay and is used in filter
+   */
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
@@ -78,68 +61,87 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
 
   const [searchType, setsearchType] = useState<string>("");
   const [orderBy, setOrderBy] = useState<string>("");
-  const [sort, setSort] = useState<string>("");
+  const [sort, setSort] = useState<string>("desc");
 
   useEffect(() => {
     onChange?.({
       q: debouncedSearchTerm,
       type: searchType,
       order_by: orderBy,
-      sort: sort,
+      sort: sort && orderBy ? sort : "",
     });
   }, [debouncedSearchTerm, searchType, orderBy, sort]); // Re-run effect when these variables change
 
+  const clearFilters = () => {
+    setSearchTerm("");
+    setDebouncedSearchTerm("");
+    setsearchType("");
+    setOrderBy("");
+    setSort("desc");
+  };
+
   return (
     <>
-      <Accordion variant="shadow">
-        <AccordionItem key="1" aria-label="Filter" title="Filter">
-          <Input
-            className="max-w-xs"
-            label="Filter"
-            labelPlacement="outside"
-            placeholder="Search by name..."
-            startContent={
-              <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-            }
-            value={searchTerm}
-            onValueChange={handleValueChange}
-          />
+      <Popover backdrop="opaque">
+        <PopoverTrigger>
+          <Button className="self-end" color="primary">
+            Filter...
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+          <div className="flex flex-col gap-4 pt-4 pb-4">
+            <Input
+              className="max-w-xs"
+              label="Name"
+              labelPlacement="outside"
+              placeholder="Search by name..."
+              startContent={
+                <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+              }
+              value={searchTerm}
+              onValueChange={handleValueChange}
+            />
 
-          <Select
-            isClearable
-            className="max-w-xs"
-            label="Type"
-            labelPlacement="outside"
-            placeholder="Select a type"
-            onChange={(e) => {
-              setsearchType(e.target.value);
-            }}
-          >
-            {types.map((type) => (
-              <SelectItem key={type.key}>{type.label}</SelectItem>
-            ))}
-          </Select>
-
-          <div className="flex gap-4 items-end">
             <Select
               isClearable
               className="max-w-xs"
-              label="Order by"
+              label="Type"
               labelPlacement="outside"
               placeholder="Select"
+              selectedKeys={[searchType]}
               onChange={(e) => {
-                setOrderBy(e.target.value);
+                setsearchType(e.target.value);
               }}
             >
-              {order_by_types.map((type) => (
+              {data.animeTypes.map((type) => (
                 <SelectItem key={type.key}>{type.label}</SelectItem>
               ))}
             </Select>
 
-            <SortButton onChange={setSort} />
+            <div className="flex gap-4 items-end flex-grow">
+              <Select
+                isClearable
+                className="max-w-xs"
+                label="Order by"
+                labelPlacement="outside"
+                placeholder="Select"
+                selectedKeys={[orderBy]}
+                onChange={(e) => {
+                  setOrderBy(e.target.value);
+                }}
+              >
+                {data.animeOrderBy.map((type) => (
+                  <SelectItem key={type.key}>{type.label}</SelectItem>
+                ))}
+              </Select>
+
+              <SortButton direction={sort} onChange={setSort} />
+            </div>
+
+            <Button onPress={clearFilters}>Clear Filters</Button>
           </div>
-        </AccordionItem>
-      </Accordion>
+        </PopoverContent>
+      </Popover>
     </>
   );
 }
