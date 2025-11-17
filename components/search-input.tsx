@@ -125,6 +125,7 @@ export const SearchInput = () => {
                   ref={searchInput}
                   allowsCustomValue
                   aria-label="Search anime manga or character"
+                  endContent={<div className="max-sm:hidden">{buttons}</div>}
                   isLoading={isLoading}
                   itemHeight={50}
                   items={debouncedSearchTerm ? data : []}
@@ -133,14 +134,13 @@ export const SearchInput = () => {
                   startContent={
                     <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
                   }
-                  endContent={<div className="max-sm:hidden">{buttons}</div>}
                   onInput={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setSearchTerm(e.target.value);
                   }}
                   onSelectionChange={() => onSearchModalClose()}
                 >
                   {(
-                    item: AnimeInterface & MangaInterface & CharacterInterface
+                    item: AnimeInterface & MangaInterface & CharacterInterface,
                   ) => (
                     <AutocompleteItem
                       key={autoCompleteItemKeyIndex++}
