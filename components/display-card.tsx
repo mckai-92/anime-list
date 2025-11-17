@@ -20,6 +20,8 @@ import { AnimeDetails } from "./anime-details";
 import { MangaDetails } from "./manga-details";
 import { CharacterDetails } from "./character-details";
 
+import { Type } from "@/types/enums";
+
 export const DisplayCard = ({
   type,
   id,
@@ -90,11 +92,11 @@ export const DisplayCard = ({
             <>
               <DrawerHeader className="flex flex-col " />
               <DrawerBody>
-                {type === "anime" ? <AnimeDetails id={id} /> : null}
+                {type === Type.Anime ? <AnimeDetails id={id} /> : null}
 
-                {type === "manga" ? <MangaDetails id={id} /> : null}
+                {type === Type.Manga ? <MangaDetails id={id} /> : null}
 
-                {type === "character" ? <CharacterDetails id={id} /> : null}
+                {type === Type.Characters ? <CharacterDetails id={id} /> : null}
               </DrawerBody>
               <DrawerFooter>
                 <Button color="danger" variant="light" onPress={onClose}>

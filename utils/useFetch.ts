@@ -24,6 +24,65 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
+function fetcherMulti(urls: string[]) {
+  const f = (u: string) => fetch(u).then((r) => r.json());
+
+  return Promise.all(urls.map((url) => f(url)));
+
+  // const promises = urls.map((url) => {
+  //   return () => {
+  //     return new Promise(async (resolve) => {
+  //       await setTimeout(() => {}, 5000);
+  //       f(url).then((res) => {
+  //         resolve(res);
+  //       });
+  //     });
+  //   };
+  // });
+
+  // async function executeSequentially() {
+  //   const results = [];
+  //   for (const task of promises) {
+  //     const result = await task();
+  //     results.push(result);
+  //   }
+
+  //   return results;
+  // }
+
+  // return executeSequentially();
+}
+
+export function useFetchDataMultiple(urls: string[]) {
+  const { data, error, isLoading } = useSWR(urls, fetcherMulti, {
+    keepPreviousData: true,
+  });
+
+  const types = ["anime", "manga", "character"];
+  const sortedData: object[] = [];
+
+  data?.forEach((type: { data: object[] }, index: number) => {
+    type?.data?.forEach((d: object) => {
+      sortedData.push({
+        ...d,
+        __type: types[index],
+      });
+    });
+  });
+
+  const loadingState = isLoading || data?.length === 0 ? true : false;
+
+  return {
+    data: sortedData,
+    isLoading: loadingState,
+    error: error,
+  };
+}
+
+export function useFetchSearchAny(q: string, type: string) {
+  return useFetchData(`${api}/${type}?q=${q}`);
+}
+
 export function useFetchData(url: string) {
   const { data, error, isLoading } = useSWR(url, fetcher, {
     keepPreviousData: true,
@@ -35,13 +94,16 @@ export function useFetchData(url: string) {
   //     : data?.pagination?.items?.total;
   // }, [data?.pagination?.items?.count]);
 
-  const total_pages = data?.pagination?.last_visible_page;
+  const pagination = data?.pagination;
+
+  const total_pages = pagination?.last_visible_page;
 
   const loadingState = isLoading || data?.data?.length === 0 ? true : false;
 
   return {
+    data: data?.data,
+    pagination,
     total_pages,
-    data,
     isLoading: loadingState,
     error: error,
   };

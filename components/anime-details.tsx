@@ -32,6 +32,7 @@ import {
   useFetchAnimeCharacters,
   useFetchAnimeImages,
 } from "@/utils/useFetch";
+import { Type } from "@/types/enums";
 
 const Row = ({ label, value }: { label: string; value: any }) => {
   return (
@@ -276,8 +277,8 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                         image={item.character.images.webp.image_url}
                         name={item.character.name}
                         role={item.role}
-                        type="character"
-                        url={`/character/${item.character.mal_id}`}
+                        type={Type.Characters}
+                        url={`/${Type.Characters}/${item.character.mal_id}`}
                       />
                     ))}
                   </Card>

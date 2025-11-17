@@ -9,6 +9,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 
 import { ArrowDown, ArrowUp, SearchIcon } from "@/components/icons";
 import { data } from "@/config/data";
+import { useDebouncedInputChange } from "@/utils/useDebouncedInputChange";
 
 const SortButton = ({
   direction,
@@ -42,22 +43,8 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
    * @prop searchTerm is string that is bound to input field
    * @prop debouncedSearchTerm is populated after delay and is used in filter
    */
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  const handleValueChange = (value: string) => {
-    setSearchTerm(value);
-  };
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 500); // 500ms delay
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchTerm]); // Re-run effect when searchTerm changes
+  const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebouncedInputChange(searchTerm);
 
   const [searchType, setsearchType] = useState<string>("");
   const [orderBy, setOrderBy] = useState<string>("");
@@ -74,7 +61,6 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
 
   const clearFilters = () => {
     setSearchTerm("");
-    setDebouncedSearchTerm("");
     setsearchType("");
     setOrderBy("");
     setSort("desc");
@@ -99,7 +85,7 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
                 <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
               }
               value={searchTerm}
-              onValueChange={handleValueChange}
+              onValueChange={setSearchTerm}
             />
 
             <Select

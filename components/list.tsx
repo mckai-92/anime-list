@@ -32,7 +32,7 @@ export const List = ({
   console.log(data);
 
   const _onSelect = (key: any) => {
-    onSelect(data?.data?.[key]);
+    onSelect(data?.[key]);
   };
 
   return (
@@ -41,7 +41,7 @@ export const List = ({
       <div className="overflow-hidden flex flex-col relative">
         <Table
           columns={columns}
-          items={data?.data}
+          items={data}
           renderCell={renderTableCell}
           onRowAction={_onSelect}
         />

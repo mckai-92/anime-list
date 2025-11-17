@@ -28,6 +28,7 @@ import {
   PhotoIcon,
   CharacterIcon,
 } from "@/components/icons";
+import { Type } from "@/types/enums";
 
 const CustomCard = ({
   role,
@@ -168,8 +169,8 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                         image={item.anime.images.webp.image_url}
                         name={item.anime.title}
                         role={item.role}
-                        type="anime"
-                        url={`/anime/${item.anime.mal_id}`}
+                        type={Type.Anime}
+                        url={`/${Type.Anime}/${item.anime.mal_id}`}
                       />
                     ))}
                   </Card>
@@ -192,8 +193,8 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                         image={item.manga.images.webp.image_url}
                         name={item.manga.title}
                         role={item.role}
-                        type="manga"
-                        url={`/manga/${item.manga.mal_id}`}
+                        type={Type.Manga}
+                        url={`/${Type.Manga}/${item.manga.mal_id}`}
                       />
                     ))}
                   </Card>
