@@ -134,8 +134,6 @@ export function useFetchRecord(url: string) {
     keepPreviousData: true,
   });
 
-  const rowsPerPage = 10;
-
   return {
     data: data?.data,
     isLoading: isLoading,

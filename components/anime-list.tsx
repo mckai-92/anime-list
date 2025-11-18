@@ -14,7 +14,7 @@ import {
 } from "@heroui/drawer";
 import { Button } from "@heroui/button";
 import { useDisclosure } from "@heroui/modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -130,17 +130,10 @@ export const AnimeList = () => {
   const router = useRouter();
 
   const onRowSelected = (record: AnimeInterface) => {
-    console.log(record);
-    //setAnimeRecord(record);
-    //onOpen()
     router.push(`/anime/${record.mal_id}`);
   };
 
   const [searchFilter, setSearchFilter] = useState({});
-
-  useEffect(() => {
-    console.log("searchFilter", searchFilter);
-  }, [searchFilter]);
 
   return (
     <>

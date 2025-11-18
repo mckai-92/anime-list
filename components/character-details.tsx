@@ -3,23 +3,18 @@
 import { Image } from "@heroui/image";
 import { Divider } from "@heroui/divider";
 import { Chip } from "@heroui/chip";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
-import { Link } from "@heroui/link";
+import { Card, CardFooter, CardHeader } from "@heroui/card";
 import { Tabs, Tab } from "@heroui/tabs";
 import { useEffect } from "react";
 import { useContext } from "react";
 import clsx from "clsx";
-import { Url } from "next/dist/shared/lib/router/router";
 
 import { Loader } from "./loader";
 import { DisplayCard } from "./display-card";
 import { Photos } from "./photos";
 
 import { CharacterInterface } from "@/types";
-import {
-  useFetchCharacterImages,
-  useFetchCharacterRecord,
-} from "@/utils/useFetch";
+import { useFetchCharacterRecord } from "@/utils/useFetch";
 import { BackgroundImageContext } from "@/components/background-image-context";
 import { title, subtitle, itemsGrid } from "@/components/primitives";
 import {
@@ -29,41 +24,6 @@ import {
   CharacterIcon,
 } from "@/components/icons";
 import { Type } from "@/types/enums";
-
-const CustomCard = ({
-  role,
-  title,
-  image_url,
-  href,
-}: {
-  role: string;
-  title: string;
-  image_url: string;
-  href: Url;
-}) => {
-  return (
-    <Card isPressable as={Link} className="w-[200px]" href={href}>
-      <CardHeader className="absolute top-1 left-1 flex-col items-start p-0">
-        <Chip color={role === "Main" ? "primary" : "default"} size="sm">
-          {role}
-        </Chip>
-      </CardHeader>
-      <CardBody className="overflow-visible p-0">
-        <Image
-          isZoomed
-          alt={title}
-          className="w-full object-cover z-0"
-          height="100%"
-          src={image_url}
-          width="100%"
-        />
-      </CardBody>
-      <CardFooter className="">
-        <span className="text-small">{title}</span>
-      </CardFooter>
-    </Card>
-  );
-};
 
 export const CharacterDetails = ({ id }: { id: number | undefined }) => {
   const {
@@ -75,11 +35,6 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
     isLoading: boolean;
     error: object;
   } = useFetchCharacterRecord(id);
-
-  const { data: pictures } = useFetchCharacterImages(id);
-
-  console.log(pictures);
-  console.log(data);
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -210,7 +165,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
               >
                 <div>
                   <Card className="p-4 bg-background/40">
-                    <Photos id={data?.mal_id} type="characters" />
+                    <Photos id={data?.mal_id} type={Type.Characters} />
                   </Card>
                 </div>
               </Tab>

@@ -27,11 +27,7 @@ import { Photos } from "./photos";
 import { BackgroundImageContext } from "@/components/background-image-context";
 import { title, subtitle } from "@/components/primitives";
 import { AnimeInterface } from "@/types";
-import {
-  useFetchAnimeRecord,
-  useFetchAnimeCharacters,
-  useFetchAnimeImages,
-} from "@/utils/useFetch";
+import { useFetchAnimeRecord, useFetchAnimeCharacters } from "@/utils/useFetch";
 import { Type } from "@/types/enums";
 
 const Row = ({ label, value }: { label: string; value: any }) => {
@@ -56,11 +52,6 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
   } = useFetchAnimeRecord(id);
 
   const { data: characterData } = useFetchAnimeCharacters(id);
-  const { data: picturesData } = useFetchAnimeImages(id);
-
-  console.log(characterData);
-  console.log(picturesData);
-  console.log(data);
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -203,7 +194,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                     onOpenChange={onOpenChange}
                   >
                     <ModalContent>
-                      {(onClose) => (
+                      {() => (
                         <>
                           <ModalHeader className="flex flex-col gap-1">
                             Trailer
@@ -294,7 +285,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
               >
                 <div>
                   <Card className="p-4 bg-background/40">
-                    <Photos id={data?.mal_id} type="anime" />
+                    <Photos id={data?.mal_id} type={Type.Anime} />
                   </Card>
                 </div>
               </Tab>

@@ -5,8 +5,6 @@ export default async function Page({
 }) {
   const filters = await searchParams;
 
-  console.log(filters);
-
   return (
     <>
       <div>Empty page</div>

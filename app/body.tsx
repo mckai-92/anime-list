@@ -40,8 +40,6 @@ export const Body = ({ children }: { children: React.ReactNode }) => {
           <div className="relative flex flex-col h-screen bg-background/70 backdrop-blur-[50px] overflow-auto">
             <Navbar />
             <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow flex flex-col">
-              {/* <Main /> */}
-
               {<div>{children}</div>}
             </main>
             <footer className="w-full flex items-center justify-center py-3">

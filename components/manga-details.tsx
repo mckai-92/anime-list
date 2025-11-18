@@ -3,7 +3,7 @@
 import { Image } from "@heroui/image";
 import { Divider } from "@heroui/divider";
 import { Chip } from "@heroui/chip";
-import { Card, CardBody, CardFooter, CardHeader } from "@heroui/card";
+import { Card, CardFooter, CardHeader } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { useEffect } from "react";
@@ -19,7 +19,7 @@ import { Photos } from "./photos";
 
 import { BackgroundImageContext } from "@/components/background-image-context";
 import { title, subtitle } from "@/components/primitives";
-import { MangaInterface, CharacterInterface } from "@/types";
+import { MangaInterface } from "@/types";
 import {
   useFetchMangaRecord,
   useFetchMangaCharactersRecord,
@@ -36,47 +36,6 @@ const Row = ({ label, value }: { label: string; value: any }) => {
   );
 };
 
-const Character = ({
-  character,
-}: {
-  character: {
-    character: CharacterInterface;
-    role: string;
-  };
-}) => {
-  return (
-    <div>
-      <Card
-        isPressable
-        as={Link}
-        href={`/character/${character?.character?.mal_id}`}
-      >
-        <CardHeader className="absolute top-1 left-1 flex-col items-start p-0">
-          <Chip
-            color={character?.role === "Main" ? "primary" : "default"}
-            size="sm"
-          >
-            {character?.role}
-          </Chip>
-        </CardHeader>
-        <CardBody className="overflow-visible p-0">
-          <Image
-            isZoomed
-            alt={character?.character?.name}
-            className="w-full object-cover z-0"
-            height={200}
-            src={character?.character?.images?.webp?.image_url}
-            width="100%"
-          />
-        </CardBody>
-        <CardFooter className="">
-          <span className="text-small">{character?.character?.name}</span>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-};
-
 export const MangaDetails = ({ id }: { id: number | undefined }) => {
   const {
     data,
@@ -89,8 +48,6 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
   } = useFetchMangaRecord(id);
 
   const { data: characterData } = useFetchMangaCharactersRecord(id);
-
-  console.log(data);
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -257,7 +214,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
               >
                 <div>
                   <Card className="p-4 bg-background/40">
-                    <Photos id={data?.mal_id} type="manga" />
+                    <Photos id={data?.mal_id} type={Type.Manga} />
                   </Card>
                 </div>
               </Tab>

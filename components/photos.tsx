@@ -43,7 +43,7 @@ export const Photos = ({ id, type }: { id: number; type: string }) => {
         onOpenChange={onOpenChange}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalBody>
                 <div className="flex items-center justify-center">

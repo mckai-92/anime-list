@@ -50,7 +50,7 @@ export const DisplayCard = ({
           <Button
             isIconOnly
             className="absolute top-[-10] right-[-10] z-100 bg-content1/90"
-            onPress={(e) => preview()}
+            onPress={() => preview()}
           >
             <EyeIcon />
           </Button>
