@@ -24,61 +24,6 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
-function fetcherMulti(urls: string[]) {
-  const f = (u: string) => fetch(u).then((r) => r.json());
-
-  return Promise.all(urls.map((url) => f(url)));
-
-  // const promises = urls.map((url) => {
-  //   return () => {
-  //     return new Promise(async (resolve) => {
-  //       await setTimeout(() => {}, 5000);
-  //       f(url).then((res) => {
-  //         resolve(res);
-  //       });
-  //     });
-  //   };
-  // });
-
-  // async function executeSequentially() {
-  //   const results = [];
-  //   for (const task of promises) {
-  //     const result = await task();
-  //     results.push(result);
-  //   }
-
-  //   return results;
-  // }
-
-  // return executeSequentially();
-}
-
-export function useFetchDataMultiple(urls: string[]) {
-  const { data, error, isLoading } = useSWR(urls, fetcherMulti, {
-    keepPreviousData: true,
-  });
-
-  const types = ["anime", "manga", "character"];
-  const sortedData: object[] = [];
-
-  data?.forEach((type: { data: object[] }, index: number) => {
-    type?.data?.forEach((d: object) => {
-      sortedData.push({
-        ...d,
-        __type: types[index],
-      });
-    });
-  });
-
-  const loadingState = isLoading || data?.length === 0 ? true : false;
-
-  return {
-    data: sortedData,
-    isLoading: loadingState,
-    error: error,
-  };
-}
-
 export function useFetchSearchAny(q: string, type: string) {
   return useFetchData(`${api}/${type}?q=${q}`);
 }
@@ -88,22 +33,15 @@ export function useFetchData(url: string) {
     keepPreviousData: true,
   });
 
-  // const total_pages = useMemo(() => {
-  //   return data?.pagination?.items?.total > 20
-  //     ? 20
-  //     : data?.pagination?.items?.total;
-  // }, [data?.pagination?.items?.count]);
+  console.log(data);
 
   const pagination = data?.pagination;
-
-  const total_pages = pagination?.last_visible_page;
 
   const loadingState = isLoading || data?.data?.length === 0 ? true : false;
 
   return {
     data: data?.data,
-    pagination,
-    total_pages,
+    pagination: pagination,
     isLoading: loadingState,
     error: error,
   };
@@ -112,7 +50,7 @@ export function useFetchData(url: string) {
 export function useFetchAnimeSearch(
   params: { [key: string]: any },
   page: number,
-  limit: number,
+  limit: number
 ) {
   let params_string = Object.keys(params)
     .map((p) => {
@@ -121,7 +59,7 @@ export function useFetchAnimeSearch(
     .join("&");
 
   return useFetchData(
-    `${api}/anime?${params_string}&page=${page}&limit=${limit}`,
+    `${api}/anime?${params_string}&page=${page}&limit=${limit}`
   );
 }
 
@@ -170,4 +108,41 @@ export function useFetchMangaImages(id: number | undefined) {
 
 export function useFetchImages(id: number | undefined, type: string) {
   return useFetchRecord(`${api}/${type}/${id}/pictures`);
+}
+
+/**
+ * Multi search
+ * @param urls
+ * @returns
+ */
+function fetcherMulti(urls: string[]) {
+  const f = (u: string) => fetch(u).then((r) => r.json());
+
+  return Promise.all(urls.map((url) => f(url)));
+}
+
+export function useFetchDataMultiple(urls: string[]) {
+  const { data, error, isLoading } = useSWR(urls, fetcherMulti, {
+    keepPreviousData: true,
+  });
+
+  const types = ["anime", "manga", "character"];
+  const sortedData: object[] = [];
+
+  data?.forEach((type: { data: object[] }, index: number) => {
+    type?.data?.forEach((d: object) => {
+      sortedData.push({
+        ...d,
+        __type: types[index],
+      });
+    });
+  });
+
+  const loadingState = isLoading || data?.length === 0 ? true : false;
+
+  return {
+    data: sortedData,
+    isLoading: loadingState,
+    error: error,
+  };
 }

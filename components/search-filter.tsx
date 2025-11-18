@@ -7,7 +7,7 @@ import { Button } from "@heroui/button";
 import { Tooltip } from "@heroui/tooltip";
 import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 
-import { ArrowDown, ArrowUp, SearchIcon } from "@/components/icons";
+import { ArrowDown, ArrowUp, SearchIcon, XMark } from "@/components/icons";
 import { data } from "@/config/data";
 import { useDebouncedInputChange } from "@/utils/useDebouncedInputChange";
 
@@ -68,66 +68,76 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
 
   return (
     <>
-      <Popover backdrop="opaque">
-        <PopoverTrigger>
-          <Button className="self-end" color="primary">
-            Filter...
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-          <div className="flex flex-col gap-4 pt-4 pb-4">
-            <Input
-              className="max-w-xs"
-              label="Name"
-              labelPlacement="outside"
-              placeholder="Search by name..."
-              startContent={
-                <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-              }
-              value={searchTerm}
-              onValueChange={setSearchTerm}
-            />
+      <div className="flex items-center">
+        <Popover backdrop="opaque">
+          <PopoverTrigger>
+            <Button className="self-end" color="primary">
+              Filter...
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col gap-4 pt-4 pb-4">
+              <Input
+                className="max-w-xs"
+                label="Name"
+                labelPlacement="outside"
+                placeholder="Search by name..."
+                startContent={
+                  <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+                }
+                value={searchTerm}
+                onValueChange={setSearchTerm}
+              />
 
-            <Select
-              isClearable
-              className="max-w-xs"
-              label="Type"
-              labelPlacement="outside"
-              placeholder="Select"
-              selectedKeys={[searchType]}
-              onChange={(e) => {
-                setsearchType(e.target.value);
-              }}
-            >
-              {data.animeTypes.map((type) => (
-                <SelectItem key={type.key}>{type.label}</SelectItem>
-              ))}
-            </Select>
-
-            <div className="flex gap-4 items-end flex-grow">
               <Select
                 isClearable
                 className="max-w-xs"
-                label="Order by"
+                label="Type"
                 labelPlacement="outside"
                 placeholder="Select"
-                selectedKeys={[orderBy]}
+                selectedKeys={[searchType]}
                 onChange={(e) => {
-                  setOrderBy(e.target.value);
+                  setsearchType(e.target.value);
                 }}
               >
-                {data.animeOrderBy.map((type) => (
+                {data.animeTypes.map((type) => (
                   <SelectItem key={type.key}>{type.label}</SelectItem>
                 ))}
               </Select>
 
-              <SortButton direction={sort} onChange={setSort} />
-            </div>
+              <div className="flex gap-4 items-end flex-grow">
+                <Select
+                  isClearable
+                  className="max-w-xs"
+                  label="Order by"
+                  labelPlacement="outside"
+                  placeholder="Select"
+                  selectedKeys={[orderBy]}
+                  onChange={(e) => {
+                    setOrderBy(e.target.value);
+                  }}
+                >
+                  {data.animeOrderBy.map((type) => (
+                    <SelectItem key={type.key}>{type.label}</SelectItem>
+                  ))}
+                </Select>
 
-            <Button onPress={clearFilters}>Clear Filters</Button>
-          </div>
-        </PopoverContent>
-      </Popover>
+                <SortButton direction={sort} onChange={setSort} />
+              </div>
+
+              <Button onPress={clearFilters}>Clear Filters</Button>
+            </div>
+          </PopoverContent>
+        </Popover>
+
+        {debouncedSearchTerm || searchType || searchTerm ? (
+          <Tooltip content="Clear filters">
+            <Button isIconOnly variant="light" onPress={clearFilters}>
+              <XMark />
+            </Button>
+          </Tooltip>
+        ) : null}
+      </div>
     </>
   );
 }

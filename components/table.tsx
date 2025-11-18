@@ -54,7 +54,7 @@ export const Table = ({
                   {renderCell(
                     item[column.field as keyof typeof item],
                     column,
-                    item,
+                    item
                   )}
                 </TableCell>
               ))}
