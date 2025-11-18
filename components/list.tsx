@@ -41,7 +41,7 @@ export const List = ({
     <>
       <div>{error?.info?.message}</div>
       <div className="overflow-hidden flex flex-col relative gap-4">
-        {pagination?.last_visible_page > 0 ? (
+        {pagination?.last_visible_page > 1 ? (
           <div className="flex w-full justify-center">
             <Pagination
               isCompact

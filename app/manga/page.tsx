@@ -1,5 +1,15 @@
-"use client";
+import { MangaList } from "@/components/manga-list";
 
-export default function Anime() {
-  return <div>Empty page</div>;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: number }>;
+}) {
+  const { slug } = await params;
+
+  return (
+    <>
+      <MangaList />
+    </>
+  );
 }

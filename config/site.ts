@@ -9,12 +9,12 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Animes",
-      href: "/animes",
+      label: "Anime",
+      href: "/anime",
     },
     {
       label: "Manga",
-      href: "/mangas",
+      href: "/manga",
     },
     {
       label: "Characters",
@@ -27,12 +27,12 @@ export const siteConfig = {
       href: "/",
     },
     {
-      label: "Animes",
-      href: "/animes",
+      label: "Anime",
+      href: "/anime",
     },
     {
       label: "Manga",
-      href: "/mangas",
+      href: "/manga",
     },
     {
       label: "Characters",

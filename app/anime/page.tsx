@@ -1,13 +1,15 @@
+import { AnimeList } from "@/components/anime-list";
+
 export default async function Page({
-  searchParams,
+  params,
 }: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ slug: number }>;
 }) {
-  const filters = await searchParams;
+  const { slug } = await params;
 
   return (
     <>
-      <div>Empty page</div>
+      <AnimeList />
     </>
   );
 }

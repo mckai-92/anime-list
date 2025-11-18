@@ -1,3 +1,4 @@
+import { Type } from "@/types/enums";
 import useSWR from "swr";
 
 const api = "https://api.jikan.moe/v4";
@@ -96,6 +97,21 @@ export function useFetchCharacterImages(id: number | undefined) {
   return useFetchRecord(`${api}/characters/${id}/pictures`);
 }
 
+export function useFetchMangaSearch(
+  params: { [key: string]: any },
+  page: number,
+  limit: number
+) {
+  let params_string = Object.keys(params)
+    .map((p) => {
+      return `${p}=${params[p]}`;
+    })
+    .join("&");
+
+  return useFetchData(
+    `${api}/${Type.Manga}?${params_string}&page=${page}&limit=${limit}`
+  );
+}
 export function useFetchMangaRecord(id: number | undefined) {
   return useFetchRecord(`${api}/manga/${id}/full`);
 }

@@ -10,6 +10,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@heroui/popover";
 import { ArrowDown, ArrowUp, SearchIcon, XMark } from "@/components/icons";
 import { data } from "@/config/data";
 import { useDebouncedInputChange } from "@/utils/useDebouncedInputChange";
+import { Type } from "@/types/enums";
 
 const SortButton = ({
   direction,
@@ -38,7 +39,13 @@ const SortButton = ({
   );
 };
 
-export default function SearchFilter({ onChange }: { onChange?: Function }) {
+export default function SearchFilter({
+  type,
+  onChange,
+}: {
+  type: Type;
+  onChange?: Function;
+}) {
   /**
    * @prop searchTerm is string that is bound to input field
    * @prop debouncedSearchTerm is populated after delay and is used in filter
@@ -65,6 +72,10 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
     setOrderBy("");
     setSort("desc");
   };
+  interface MyObject {
+    [key: string]: string; // Allows indexing with any string, value is string
+    // ... other specific properties
+  }
 
   return (
     <>
@@ -100,8 +111,8 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
                   setsearchType(e.target.value);
                 }}
               >
-                {data.animeTypes.map((type) => (
-                  <SelectItem key={type.key}>{type.label}</SelectItem>
+                {data?.type[type].map((t: { key: string; label: string }) => (
+                  <SelectItem key={t.key}>{t.label}</SelectItem>
                 ))}
               </Select>
 
@@ -117,9 +128,11 @@ export default function SearchFilter({ onChange }: { onChange?: Function }) {
                     setOrderBy(e.target.value);
                   }}
                 >
-                  {data.animeOrderBy.map((type) => (
-                    <SelectItem key={type.key}>{type.label}</SelectItem>
-                  ))}
+                  {data.orderBy[type].map(
+                    (o: { key: string; label: string }) => (
+                      <SelectItem key={o.key}>{o.label}</SelectItem>
+                    )
+                  )}
                 </Select>
 
                 <SortButton direction={sort} onChange={setSort} />

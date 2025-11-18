@@ -20,14 +20,14 @@ import React from "react";
 
 import { AnimeDetails } from "@/components/anime-details";
 import { List } from "@/components/list";
-import { useFetchAnimeSearch } from "@/utils/useFetch";
+import { useFetchAnimeSearch, useFetchMangaSearch } from "@/utils/useFetch";
 import { AnimeInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { title } from "@/components/primitives";
 import { Type } from "@/types/enums";
 
-export const AnimeList = () => {
+export const MangaList = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [animeRecord, setAnimeRecord] = useState<AnimeInterface>();
 
@@ -140,17 +140,17 @@ export const AnimeList = () => {
     <>
       <div>
         <div className="flex flex-wrap items-center justify-between gap-1 md:gap-4 leading-none my-2">
-          <span className={title()}>Animes</span>
+          <span className={title()}>Mangas</span>
 
           <span>
-            <SearchFilter type={Type.Anime} onChange={setSearchFilter} />
+            <SearchFilter type={Type.Manga} onChange={setSearchFilter} />
           </span>
         </div>
 
         <Card className="p-4 bg-content1/70">
           <List
             columns={animeColumns}
-            fetchHook={useFetchAnimeSearch}
+            fetchHook={useFetchMangaSearch}
             renderTableCell={renderCell}
             searchTerms={searchFilter}
             onSelect={onRowSelected}
