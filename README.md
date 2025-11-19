@@ -1,32 +1,19 @@
-# Next.js & HeroUI Template
+# Anime List
 
-This is a template for creating applications using Next.js 14 (app directory) and HeroUI (v2).
+This app represents list of [anime](https://en.wikipedia.org/wiki/Anime) and [manga](https://en.wikipedia.org/wiki/Manga), and most important details regarding them (episodes, volumes, characters).
 
-[Try it on CodeSandbox](https://githubbox.com/heroui-inc/heroui/next-app-template)
+Data provider is [Jikan API](https://jikan.moe/) and there is rate limit to all requests. [More details...](https://docs.api.jikan.moe/#/section/information/rate-limiting)
 
-## Technologies Used
+### Technologies Used
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [HeroUI v2](https://heroui.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+[Next.js 14](https://nextjs.org/docs/getting-started) -
+[HeroUI v2](https://heroui.com/) -
+[Tailwind CSS](https://tailwindcss.com/) -
+[TypeScript](https://www.typescriptlang.org/)
 
 ## How to Use
 
-### Use the template with create-next-app
-
-To create a new project based on this template using `create-next-app`, run the following command:
-
-```bash
-npx create-next-app -e https://github.com/heroui-inc/next-app-template
-```
-
 ### Install dependencies
-
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
 
 ```bash
 npm install
@@ -38,16 +25,6 @@ npm install
 npm run dev
 ```
 
-### Setup pnpm (optional)
-
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
-
-```bash
-public-hoist-pattern[]=*@heroui/*
-```
-
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
-
 ## License
 
-Licensed under the [MIT license](https://github.com/heroui-inc/next-app-template/blob/main/LICENSE).
+Licensed under the [MIT license](LICENSE).
