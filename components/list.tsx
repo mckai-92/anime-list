@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 import { TableColumnInterface } from "@/types/index";
 import { Table } from "@/components/table";
 import { Loader } from "@/components/loader";
+import clsx from "clsx";
+import { space } from "./primitives";
 
 export const List = ({
   items,
@@ -40,7 +42,12 @@ export const List = ({
   return (
     <>
       <div>{error?.info?.message}</div>
-      <div className="overflow-hidden flex flex-col relative gap-4">
+      <div
+        className={clsx(
+          "overflow-hidden flex flex-col relative",
+          space({ type: "gap" })
+        )}
+      >
         {pagination?.last_visible_page > 1 ? (
           <div className="flex w-full justify-center">
             <Pagination

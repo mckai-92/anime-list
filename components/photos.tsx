@@ -5,10 +5,11 @@ import { Card } from "@heroui/card";
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@heroui/modal";
 
-import { itemsGrid } from "./primitives";
+import { itemsGrid, space } from "./primitives";
 
 import { useFetchImages } from "@/utils/useFetch";
 import { ImageInterface } from "@/types";
+import clsx from "clsx";
 
 export const Photos = ({ id, type }: { id: number; type: string }) => {
   let [photos, setPhotos] = useState([]);
@@ -27,7 +28,7 @@ export const Photos = ({ id, type }: { id: number; type: string }) => {
 
   return (
     <>
-      <div className={itemsGrid()}>
+      <div className={clsx(space({ type: "gap" }), itemsGrid())}>
         {photos?.map((photo: any, index: number) => (
           <Card key={index} isPressable onPress={() => onPhotoPress(photo)}>
             <Image isZoomed src={photo?.jpg?.image_url} width={"100%"} />

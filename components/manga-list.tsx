@@ -15,9 +15,10 @@ import { useFetchMangaSearch } from "@/utils/useFetch";
 import { MangaInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
-import { title } from "@/components/primitives";
+import { space, title } from "@/components/primitives";
 import { Type } from "@/types/enums";
 import { Link } from "@heroui/link";
+import clsx from "clsx";
 
 export const MangaList = () => {
   const mangaColumns = [
@@ -130,7 +131,7 @@ export const MangaList = () => {
           </span>
         </div>
 
-        <Card className="p-4 bg-content1/70">
+        <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
           <List
             columns={mangaColumns}
             fetchHook={useFetchMangaSearch}

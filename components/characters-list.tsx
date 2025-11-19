@@ -13,9 +13,10 @@ import { useFetchCharactersSearch } from "@/utils/useFetch";
 import { CharacterInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
-import { title } from "@/components/primitives";
+import { space, title } from "@/components/primitives";
 import { Type } from "@/types/enums";
 import { Link } from "@heroui/link";
+import clsx from "clsx";
 
 export const CharactersList = () => {
   const characterColumns = [
@@ -90,7 +91,7 @@ export const CharactersList = () => {
           </span>
         </div>
 
-        <Card className="p-4 bg-content1/70">
+        <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
           <List
             columns={characterColumns}
             fetchHook={useFetchCharactersSearch}

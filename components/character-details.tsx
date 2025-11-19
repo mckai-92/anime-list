@@ -16,7 +16,7 @@ import { Photos } from "./photos";
 import { CharacterInterface } from "@/types";
 import { useFetchCharacterRecord } from "@/utils/useFetch";
 import { BackgroundImageContext } from "@/components/background-image-context";
-import { title, subtitle, itemsGrid } from "@/components/primitives";
+import { title, subtitle, itemsGrid, space } from "@/components/primitives";
 import {
   TvIcon,
   MangaIcon,
@@ -63,7 +63,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
         {data?.name_kanji}
       </div>
 
-      <Card className="p-4 bg-content1/70">
+      <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
         <div className="relative grid gap-4">
           <div className="grid grid-cols-1 md:grid-cols-[250px_1fr] gap-4 items-start">
             <Card
@@ -89,7 +89,9 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
             </Card>
 
             <div className="flex-grow">
-              <Card className="p-4 bg-background/40">
+              <Card
+                className={clsx(space({ type: "padding" }), "bg-background/40")}
+              >
                 <div className="text-small text-default-500 whitespace-break-spaces">
                   {data?.about}
                 </div>
@@ -116,7 +118,14 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                 }
               >
                 <div>
-                  <Card className={clsx("p-4 bg-background/40", itemsGrid())}>
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      space({ type: "gap" }),
+                      "bg-background/40",
+                      itemsGrid()
+                    )}
+                  >
                     {data?.anime?.map((item: any) => (
                       <DisplayCard
                         key={item.anime.mal_id}
@@ -140,7 +149,14 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                 }
               >
                 <div>
-                  <Card className={clsx("p-4 bg-background/40", itemsGrid())}>
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      space({ type: "gap" }),
+                      "bg-background/40",
+                      itemsGrid()
+                    )}
+                  >
                     {data?.manga?.map((item: any) => (
                       <DisplayCard
                         key={item.manga.mal_id}
@@ -164,7 +180,12 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                 }
               >
                 <div>
-                  <Card className="p-4 bg-background/40">
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      "bg-background/40"
+                    )}
+                  >
                     <Photos id={data?.mal_id} type={Type.Characters} />
                   </Card>
                 </div>

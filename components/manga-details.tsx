@@ -18,7 +18,7 @@ import { DisplayCard } from "./display-card";
 import { Photos } from "./photos";
 
 import { BackgroundImageContext } from "@/components/background-image-context";
-import { title, subtitle } from "@/components/primitives";
+import { title, subtitle, space } from "@/components/primitives";
 import { MangaInterface } from "@/types";
 import {
   useFetchMangaRecord,
@@ -83,7 +83,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
         {data?.title_japanese}
       </div>
 
-      <Card className="p-4 bg-content1/70">
+      <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
         <div className="relative grid gap-4">
           <div className="flex flex-col md:flex-row gap-4">
             <Card
@@ -149,7 +149,9 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div>
               <span className={subtitle()}>Synopsis</span>
-              <Card className="p-4 bg-background/40">
+              <Card
+                className={clsx(space({ type: "padding" }), "bg-background/40")}
+              >
                 <div className="text-small text-default-500 whitespace-break-spaces">
                   {data?.synopsis}
                 </div>
@@ -160,7 +162,12 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
               <>
                 <div>
                   <span className={subtitle()}>Background</span>
-                  <Card className="p-4 bg-background/40">
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      "bg-background/40"
+                    )}
+                  >
                     <div className="text-small text-default-500 whitespace-break-spaces">
                       {data?.background}
                     </div>
@@ -189,7 +196,14 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
                 }
               >
                 <div>
-                  <Card className="p-4 bg-background/40 gap-4 grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]">
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      space({ type: "gap" }),
+                      "bg-background/40",
+                      "grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]"
+                    )}
+                  >
                     {characterData?.map((item: any) => (
                       <DisplayCard
                         key={item.character.mal_id}
@@ -213,7 +227,12 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
                 }
               >
                 <div>
-                  <Card className="p-4 bg-background/40">
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      "bg-background/40"
+                    )}
+                  >
                     <Photos id={data?.mal_id} type={Type.Manga} />
                   </Card>
                 </div>

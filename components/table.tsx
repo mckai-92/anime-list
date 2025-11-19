@@ -10,6 +10,7 @@ import {
 } from "@heroui/table";
 
 import { TableColumnInterface } from "@/types/index";
+import { space } from "./primitives";
 
 export const Table = ({
   items,
@@ -29,18 +30,14 @@ export const Table = ({
         aria-label="Table"
         className="overflow-auto"
         classNames={{
-          wrapper: "p-0",
+          wrapper: space({ type: "padding" }),
         }}
         selectionMode="single"
         onRowAction={(key) => onRowAction?.(key)}
       >
         <TableHeader>
           {columns.map((column: TableColumnInterface, index: number) => (
-            <TableColumn
-              key={index}
-              allowsSorting
-              className={column?.class_name}
-            >
+            <TableColumn key={index} className={column?.class_name}>
               {column.label.toUpperCase()}
             </TableColumn>
           ))}

@@ -62,7 +62,17 @@ export const subtitle = tv({
 });
 
 export const itemsGrid = tv({
-  base: `gap-4 grid items-start 
+  base: `grid items-start 
           lg:grid-cols-[repeat(6,minmax(140px,1fr))] 
           grid-cols-[repeat(auto-fit,minmax(140px,1fr))]`,
+});
+
+export const space = tv({
+  base: "",
+  variants: {
+    type: {
+      padding: "p-2 lg:p-4",
+      gap: "gap-2 lg:gap-4",
+    },
+  },
 });
