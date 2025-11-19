@@ -1,5 +1,15 @@
-"use client";
+import { CharactersList } from "@/components/characters-list";
 
-export default function Character() {
-  return <div>Empty page</div>;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: number }>;
+}) {
+  const { slug } = await params;
+
+  return (
+    <>
+      <CharactersList />
+    </>
+  );
 }

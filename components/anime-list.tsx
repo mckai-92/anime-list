@@ -5,20 +5,12 @@ import { Chip } from "@heroui/chip";
 import { Progress } from "@heroui/progress";
 import { Tooltip } from "@heroui/tooltip";
 import { Card } from "@heroui/card";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-} from "@heroui/drawer";
+
 import { Button } from "@heroui/button";
-import { useDisclosure } from "@heroui/modal";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-import { AnimeDetails } from "@/components/anime-details";
 import { List } from "@/components/list";
 import { useFetchAnimeSearch } from "@/utils/useFetch";
 import { AnimeInterface } from "@/types";
@@ -26,11 +18,9 @@ import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { title } from "@/components/primitives";
 import { Type } from "@/types/enums";
+import { Link } from "@heroui/link";
 
 export const AnimeList = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [animeRecord, setAnimeRecord] = useState<AnimeInterface>();
-
   const animeColumns = [
     {
       field: "title_english",
@@ -105,19 +95,13 @@ export const AnimeList = () => {
     }
 
     if (column.field === "action") {
-      const openDetails = (row: AnimeInterface) => {
-        setAnimeRecord(row);
-        onOpen();
-      };
-
       return (
-        <Tooltip content="Preview">
+        <Tooltip content="Open anime details">
           <Button
             isIconOnly
             className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
-            onPress={() => {
-              openDetails(row);
-            }}
+            as={Link}
+            href={`/${Type.Anime}/${row.mal_id}`}
           >
             <EyeIcon />
           </Button>
@@ -131,7 +115,7 @@ export const AnimeList = () => {
   const router = useRouter();
 
   const onRowSelected = (record: AnimeInterface) => {
-    router.push(`/anime/${record.mal_id}`);
+    router.push(`/${Type.Anime}/${record.mal_id}`);
   };
 
   const [searchFilter, setSearchFilter] = useState({});
@@ -157,35 +141,6 @@ export const AnimeList = () => {
           />
         </Card>
       </div>
-
-      <Drawer
-        className="bg-content1/50 backdrop-blur-sm"
-        classNames={{
-          backdrop: "bg-overlay/80",
-        }}
-        isOpen={isOpen}
-        size="5xl"
-        onOpenChange={onOpenChange}
-      >
-        <DrawerContent>
-          {(onClose) => (
-            <>
-              <DrawerHeader className="flex flex-col " />
-              <DrawerBody>
-                <AnimeDetails id={animeRecord?.mal_id} />
-              </DrawerBody>
-              <DrawerFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  Action
-                </Button>
-              </DrawerFooter>
-            </>
-          )}
-        </DrawerContent>
-      </Drawer>
     </>
   );
 };

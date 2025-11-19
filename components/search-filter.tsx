@@ -100,21 +100,23 @@ export default function SearchFilter({
                 onValueChange={setSearchTerm}
               />
 
-              <Select
-                isClearable
-                className="max-w-xs"
-                label="Type"
-                labelPlacement="outside"
-                placeholder="Select"
-                selectedKeys={[searchType]}
-                onChange={(e) => {
-                  setsearchType(e.target.value);
-                }}
-              >
-                {data?.type[type].map((t: { key: string; label: string }) => (
-                  <SelectItem key={t.key}>{t.label}</SelectItem>
-                ))}
-              </Select>
+              {type !== Type.Characters ? (
+                <Select
+                  isClearable
+                  className="max-w-xs"
+                  label="Type"
+                  labelPlacement="outside"
+                  placeholder="Select"
+                  selectedKeys={[searchType]}
+                  onChange={(e) => {
+                    setsearchType(e.target.value);
+                  }}
+                >
+                  {data?.type[type].map((t: { key: string; label: string }) => (
+                    <SelectItem key={t.key}>{t.label}</SelectItem>
+                  ))}
+                </Select>
+              ) : null}
 
               <div className="flex gap-4 items-end flex-grow">
                 <Select

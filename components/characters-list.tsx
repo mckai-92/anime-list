@@ -1,8 +1,6 @@
 "use client";
 
 import { Image } from "@heroui/image";
-import { Chip } from "@heroui/chip";
-import { Progress } from "@heroui/progress";
 import { Tooltip } from "@heroui/tooltip";
 import { Card } from "@heroui/card";
 import { Button } from "@heroui/button";
@@ -11,35 +9,20 @@ import { useRouter } from "next/navigation";
 import React from "react";
 
 import { List } from "@/components/list";
-import { useFetchMangaSearch } from "@/utils/useFetch";
-import { MangaInterface } from "@/types";
+import { useFetchCharactersSearch } from "@/utils/useFetch";
+import { CharacterInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { title } from "@/components/primitives";
 import { Type } from "@/types/enums";
 import { Link } from "@heroui/link";
 
-export const MangaList = () => {
-  const mangaColumns = [
+export const CharactersList = () => {
+  const characterColumns = [
     {
-      field: "title_english",
-      label: "Title",
+      field: "name",
+      label: "Name",
       class_name: "",
-    },
-    {
-      field: "genres",
-      label: "Genres",
-      class_name: "max-md:hidden",
-    },
-    {
-      field: "type",
-      label: "Type",
-      class_name: "max-sm:hidden",
-    },
-    {
-      field: "score",
-      label: "Score",
-      class_name: "max-sm:hidden",
     },
     {
       field: "action",
@@ -48,12 +31,12 @@ export const MangaList = () => {
     },
   ];
 
-  const renderCell = (value: any, column: any, row: MangaInterface) => {
-    if (column.field === "title_english") {
+  const renderCell = (value: any, column: any, row: CharacterInterface) => {
+    if (column.field === "name") {
       return (
         <div className="flex space-x-4">
           <Image
-            alt={row.synopsis}
+            alt={row.name}
             classNames={{
               img: "min-w-15 max-w-15",
             }}
@@ -61,46 +44,23 @@ export const MangaList = () => {
           />
 
           <div>
-            <div className="text-bold text-small capitalize">
-              {row.title_english}
-            </div>
+            <div className="text-bold text-small capitalize">{row.name}</div>
             <div className="text-bold text-tiny capitalize text-default-400 line-clamp-3">
-              {row.synopsis}
+              {row.about}
             </div>
           </div>
         </div>
       );
     }
 
-    if (column.field === "genres") {
-      return (
-        <div className="space-x-1 space-y-1">
-          {row.genres?.map((genre, index) => (
-            <Chip key={index} size="sm">
-              {genre.name}
-            </Chip>
-          ))}
-        </div>
-      );
-    }
-
-    if (column.field === "score") {
-      return (
-        <div className="text-center">
-          {value}
-          <Progress aria-label="Score" size="sm" value={value * 10} />
-        </div>
-      );
-    }
-
     if (column.field === "action") {
       return (
-        <Tooltip content="Open manga details">
+        <Tooltip content="Open character details">
           <Button
             isIconOnly
             className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             as={Link}
-            href={`/${Type.Manga}/${row.mal_id}`}
+            href={`/${Type.Characters}/${row.mal_id}`}
           >
             <EyeIcon />
           </Button>
@@ -113,8 +73,8 @@ export const MangaList = () => {
 
   const router = useRouter();
 
-  const onRowSelected = (record: MangaInterface) => {
-    router.push(`/${Type.Manga}/${record.mal_id}`);
+  const onRowSelected = (record: CharacterInterface) => {
+    router.push(`/${Type.Characters}/${record.mal_id}`);
   };
 
   const [searchFilter, setSearchFilter] = useState({});
@@ -123,17 +83,17 @@ export const MangaList = () => {
     <>
       <div>
         <div className="flex flex-wrap items-center justify-between gap-1 md:gap-4 leading-none my-2">
-          <span className={title()}>Mangas</span>
+          <span className={title()}>Characters</span>
 
           <span>
-            <SearchFilter type={Type.Manga} onChange={setSearchFilter} />
+            <SearchFilter type={Type.Characters} onChange={setSearchFilter} />
           </span>
         </div>
 
         <Card className="p-4 bg-content1/70">
           <List
-            columns={mangaColumns}
-            fetchHook={useFetchMangaSearch}
+            columns={characterColumns}
+            fetchHook={useFetchCharactersSearch}
             renderTableCell={renderCell}
             searchTerms={searchFilter}
             onSelect={onRowSelected}

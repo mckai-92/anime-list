@@ -90,6 +90,21 @@ export function useFetchAnimeImages(id: number | undefined) {
   return useFetchRecord(`${api}/anime/${id}/pictures`);
 }
 
+export function useFetchCharactersSearch(
+  params: { [key: string]: any },
+  page: number,
+  limit: number
+) {
+  let params_string = Object.keys(params)
+    .map((p) => {
+      return `${p}=${params[p]}`;
+    })
+    .join("&");
+
+  return useFetchData(
+    `${api}/${Type.Characters}?${params_string}&page=${page}&limit=${limit}`
+  );
+}
 export function useFetchCharacterRecord(id: number | undefined) {
   return useFetchRecord(`${api}/characters/${id}/full`);
 }

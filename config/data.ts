@@ -49,5 +49,10 @@ export const data: any = {
       { key: "members", label: "Members" },
       { key: "favorites", label: "Favorites" },
     ],
+    characters: [
+      { key: "mal_id", label: "MAL ID" },
+      { key: "name", label: "Name" },
+      { key: "favorites", label: "Favorites" },
+    ],
   },
 };
