@@ -4,6 +4,10 @@ This app represents list of [anime](https://en.wikipedia.org/wiki/Anime) and [ma
 
 Data provider is [Jikan API](https://jikan.moe/) and there is rate limit to all requests. [More details...](https://docs.api.jikan.moe/#/section/information/rate-limiting)
 
+### Demo
+
+[Demo](https://anime-list-eight-snowy.vercel.app/) page is hosted on [Vercel](https://vercel.com/).
+
 ### Technologies Used
 
 [Next.js 14](https://nextjs.org/docs/getting-started) -
