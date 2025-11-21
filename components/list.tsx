@@ -2,12 +2,14 @@
 
 import { Pagination } from "@heroui/pagination";
 import React, { useEffect } from "react";
+import clsx from "clsx";
+
+import { space } from "./primitives";
 
 import { TableColumnInterface } from "@/types/index";
 import { Table } from "@/components/table";
 import { Loader } from "@/components/loader";
-import clsx from "clsx";
-import { space } from "./primitives";
+import { Type } from "@/types/enums";
 
 export const List = ({
   items,
@@ -15,28 +17,34 @@ export const List = ({
   renderTableCell,
   onSelect,
   fetchHook,
-  searchTerms,
+  params,
+  customProps,
+  type,
 }: {
   items?: object[];
   columns: TableColumnInterface[];
-  renderTableCell: Function;
-  onSelect: Function;
+  renderTableCell?: Function;
+  onSelect?: Function;
   fetchHook?: Function;
-  searchTerms?: object;
+  params?: object;
+  customProps?: object;
+  type?: Type;
 }) => {
   const [page, setPage] = React.useState(1);
-  const { data, pagination, isLoading, error } = fetchHook?.(
-    searchTerms,
+  const { data, pagination, isLoading, error } = fetchHook?.({
+    params,
+    type,
     page,
-    10
-  );
+    limit: 10,
+    customProps,
+  });
 
   useEffect(() => {
     setPage(1);
-  }, [searchTerms]);
+  }, [params]);
 
   const _onSelect = (key: any) => {
-    onSelect(data?.[key]);
+    onSelect?.(data?.[key]);
   };
 
   return (
@@ -45,7 +53,7 @@ export const List = ({
       <div
         className={clsx(
           "overflow-hidden flex flex-col relative",
-          space({ type: "gap" })
+          space({ type: "gap" }),
         )}
       >
         {pagination?.last_visible_page > 1 ? (
@@ -64,13 +72,14 @@ export const List = ({
 
         <Table
           columns={columns}
+          isLoading={isLoading}
           items={data}
           renderCell={renderTableCell}
           onRowAction={_onSelect}
         />
-
-        <Loader loading={isLoading} />
       </div>
+
+      <Loader loading={isLoading} />
     </>
   );
 };

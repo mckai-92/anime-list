@@ -25,7 +25,7 @@ import {
 } from "@/components/icons";
 import { Type } from "@/types/enums";
 
-export const CharacterDetails = ({ id }: { id: number | undefined }) => {
+export const CharacterDetails = ({ id }: { id: number }) => {
   const {
     data,
     isLoading,
@@ -34,7 +34,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
     data: CharacterInterface;
     isLoading: boolean;
     error: object;
-  } = useFetchCharacterRecord(id);
+  } = useFetchCharacterRecord(id, "full");
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -123,7 +123,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                       space({ type: "padding" }),
                       space({ type: "gap" }),
                       "bg-background/40",
-                      itemsGrid()
+                      itemsGrid(),
                     )}
                   >
                     {data?.anime?.map((item: any) => (
@@ -154,7 +154,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                       space({ type: "padding" }),
                       space({ type: "gap" }),
                       "bg-background/40",
-                      itemsGrid()
+                      itemsGrid(),
                     )}
                   >
                     {data?.manga?.map((item: any) => (
@@ -183,7 +183,7 @@ export const CharacterDetails = ({ id }: { id: number | undefined }) => {
                   <Card
                     className={clsx(
                       space({ type: "padding" }),
-                      "bg-background/40"
+                      "bg-background/40",
                     )}
                   >
                     <Photos id={data?.mal_id} type={Type.Characters} />

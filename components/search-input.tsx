@@ -102,6 +102,9 @@ export const SearchInput = () => {
           setSearchTerm("");
           onSearchModalOpen();
           e.target.blur();
+          setTimeout(() => {
+            searchInput.current?.focus();
+          });
         }}
         onValueChange={setSearchTerm}
       />
@@ -146,7 +149,6 @@ export const SearchInput = () => {
                       key={autoCompleteItemKeyIndex++}
                       as={Link}
                       href={`/${searchType}/${item?.mal_id}`}
-                      textValue={item?.name || item?.title}
                     >
                       <div className="flex flex-row gap-4 items-center text-default-600">
                         <Image

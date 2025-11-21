@@ -72,6 +72,7 @@ export const space = tv({
   variants: {
     type: {
       padding: "p-2 lg:p-4",
+      paddingInline: "px-2 lg:px-6",
       gap: "gap-2 lg:gap-4",
     },
   },

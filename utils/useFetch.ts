@@ -1,5 +1,6 @@
-import { Type } from "@/types/enums";
 import useSWR from "swr";
+
+import { Type } from "@/types/enums";
 
 const api = "https://api.jikan.moe/v4";
 
@@ -25,12 +26,8 @@ const fetcher = async (url: string) => {
   return res.json();
 };
 
-export function useFetchSearchAny(q: string, type: string) {
-  return useFetchData(`${api}/${type}?q=${q}`);
-}
-
 export function useFetchData(url: string) {
-  const { data, error, isLoading } = useSWR(url, fetcher, {
+  const { data, error, isLoading } = useSWR(`${api}/${url}`, fetcher, {
     keepPreviousData: true,
   });
 
@@ -48,28 +45,8 @@ export function useFetchData(url: string) {
   };
 }
 
-export function useFetchAnimeSearch(
-  params: { [key: string]: any },
-  page: number,
-  limit: number
-) {
-  let params_string = Object.keys(params)
-    .map((p) => {
-      return `${p}=${params[p]}`;
-    })
-    .join("&");
-
-  return useFetchData(
-    `${api}/anime?${params_string}&page=${page}&limit=${limit}`
-  );
-}
-
-export function useFetchAnimeData(page: number, limit: number) {
-  return useFetchData(`${api}/top/anime?page=${page}&limit=${limit}`);
-}
-
 export function useFetchRecord(url: string) {
-  const { data, error, isLoading } = useSWR(url, fetcher, {
+  const { data, error, isLoading } = useSWR(`${api}/${url}`, fetcher, {
     keepPreviousData: true,
   });
 
@@ -80,65 +57,66 @@ export function useFetchRecord(url: string) {
   };
 }
 
-export function useFetchAnimeRecord(id: number | undefined) {
-  return useFetchRecord(`${api}/anime/${id}/full`);
-}
-export function useFetchAnimeCharacters(id: number | undefined) {
-  return useFetchRecord(`${api}/anime/${id}/characters`);
-}
-export function useFetchAnimeImages(id: number | undefined) {
-  return useFetchRecord(`${api}/anime/${id}/pictures`);
-}
-
-export function useFetchCharactersSearch(
-  params: { [key: string]: any },
-  page: number,
-  limit: number
-) {
-  let params_string = Object.keys(params)
-    .map((p) => {
-      return `${p}=${params[p]}`;
-    })
-    .join("&");
-
-  return useFetchData(
-    `${api}/${Type.Characters}?${params_string}&page=${page}&limit=${limit}`
-  );
-}
-export function useFetchCharacterRecord(id: number | undefined) {
-  return useFetchRecord(`${api}/characters/${id}/full`);
-}
-export function useFetchCharacterImages(id: number | undefined) {
-  return useFetchRecord(`${api}/characters/${id}/pictures`);
+/**
+ * Used for global search of website
+ * @param q query
+ * @param type
+ * @returns
+ */
+export function useFetchSearchAny(q: string, type: string) {
+  return useFetchData(`${type}?q=${q}`);
 }
 
-export function useFetchMangaSearch(
-  params: { [key: string]: any },
-  page: number,
-  limit: number
-) {
-  let params_string = Object.keys(params)
-    .map((p) => {
-      return `${p}=${params[p]}`;
-    })
-    .join("&");
+/**
+ * Used for specific type search - anime, manga, characters
+ * @param params search parameters, different based on search type
+ * @param type
+ * @param page
+ * @param limit
+ * @returns
+ */
+export function useFetchSearch(options: {
+  params: { [key: string]: any };
+  type: Type;
+  page: number;
+  limit: number;
+}) {
+  let params_string = "";
+
+  if (options?.params) {
+    params_string = Object.keys(options?.params)
+      .map((p) => {
+        return `${p}=${options.params[p]}`;
+      })
+      .join("&");
+  }
 
   return useFetchData(
-    `${api}/${Type.Manga}?${params_string}&page=${page}&limit=${limit}`
+    `${options.type}?${params_string}&page=${options.page}&limit=${options.limit}`,
   );
 }
-export function useFetchMangaRecord(id: number | undefined) {
-  return useFetchRecord(`${api}/manga/${id}/full`);
+
+export function useFetchAnimeEpisodes(options: {
+  page: number;
+  customProps: { [key: string]: any };
+}) {
+  return useFetchData(
+    `${Type.Anime}/${options.customProps?.id}/episodes?page=${options.page}`,
+  );
 }
-export function useFetchMangaCharactersRecord(id: number | undefined) {
-  return useFetchRecord(`${api}/manga/${id}/characters`);
+
+export function useFetchAnimeRecord(id: number, part: string) {
+  return useFetchData(`${Type.Anime}/${id}/${part}`);
 }
-export function useFetchMangaImages(id: number | undefined) {
-  return useFetchRecord(`${api}/manga/${id}/pictures`);
+export function useFetchMangaRecord(id: number, part: string) {
+  return useFetchData(`${Type.Manga}/${id}/${part}`);
+}
+export function useFetchCharacterRecord(id: number, part: string) {
+  return useFetchData(`${Type.Characters}/${id}/${part}`);
 }
 
 export function useFetchImages(id: number | undefined, type: string) {
-  return useFetchRecord(`${api}/${type}/${id}/pictures`);
+  return useFetchData(`${type}/${id}/pictures`);
 }
 
 /**

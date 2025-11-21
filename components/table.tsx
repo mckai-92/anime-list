@@ -8,20 +8,24 @@ import {
   TableRow,
   TableCell,
 } from "@heroui/table";
+import clsx from "clsx";
+
+import { space } from "./primitives";
 
 import { TableColumnInterface } from "@/types/index";
-import { space } from "./primitives";
 
 export const Table = ({
   items,
   columns,
   renderCell,
   onRowAction,
+  isLoading,
 }: {
   items?: object[];
   columns: TableColumnInterface[];
-  renderCell: Function;
+  renderCell?: Function;
   onRowAction?: Function;
+  isLoading?: boolean;
 }) => {
   return (
     <>
@@ -47,11 +51,21 @@ export const Table = ({
           {items!?.map((item: object, index: number) => (
             <TableRow key={index}>
               {columns.map((column: TableColumnInterface, index: number) => (
-                <TableCell key={index} className={column?.class_name}>
-                  {renderCell(
-                    item[column.field as keyof typeof item],
-                    column,
-                    item
+                <TableCell
+                  key={index}
+                  className={clsx(
+                    column?.class_name,
+                    "px-1 py-1 lg:px-3 lg:py-2",
+                  )}
+                >
+                  {renderCell ? (
+                    renderCell(
+                      item[column.field as keyof typeof item],
+                      column,
+                      item,
+                    )
+                  ) : (
+                    <div>{item[column.field as keyof typeof item]}</div>
                   )}
                 </TableCell>
               ))}

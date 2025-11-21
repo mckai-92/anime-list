@@ -7,16 +7,16 @@ import { Button } from "@heroui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Link } from "@heroui/link";
+import clsx from "clsx";
 
 import { List } from "@/components/list";
-import { useFetchCharactersSearch } from "@/utils/useFetch";
+import { useFetchSearch } from "@/utils/useFetch";
 import { CharacterInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { space, title } from "@/components/primitives";
 import { Type } from "@/types/enums";
-import { Link } from "@heroui/link";
-import clsx from "clsx";
 
 export const CharactersList = () => {
   const characterColumns = [
@@ -59,8 +59,8 @@ export const CharactersList = () => {
         <Tooltip content="Open character details">
           <Button
             isIconOnly
-            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             as={Link}
+            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             href={`/${Type.Characters}/${row.mal_id}`}
           >
             <EyeIcon />
@@ -94,9 +94,10 @@ export const CharactersList = () => {
         <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
           <List
             columns={characterColumns}
-            fetchHook={useFetchCharactersSearch}
+            fetchHook={useFetchSearch}
+            params={searchFilter}
             renderTableCell={renderCell}
-            searchTerms={searchFilter}
+            type={Type.Characters}
             onSelect={onRowSelected}
           />
         </Card>

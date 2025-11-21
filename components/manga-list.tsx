@@ -9,16 +9,16 @@ import { Button } from "@heroui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Link } from "@heroui/link";
+import clsx from "clsx";
 
 import { List } from "@/components/list";
-import { useFetchMangaSearch } from "@/utils/useFetch";
+import { useFetchSearch } from "@/utils/useFetch";
 import { MangaInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { space, title } from "@/components/primitives";
 import { Type } from "@/types/enums";
-import { Link } from "@heroui/link";
-import clsx from "clsx";
 
 export const MangaList = () => {
   const mangaColumns = [
@@ -99,8 +99,8 @@ export const MangaList = () => {
         <Tooltip content="Open manga details">
           <Button
             isIconOnly
-            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             as={Link}
+            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             href={`/${Type.Manga}/${row.mal_id}`}
           >
             <EyeIcon />
@@ -134,9 +134,10 @@ export const MangaList = () => {
         <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
           <List
             columns={mangaColumns}
-            fetchHook={useFetchMangaSearch}
+            fetchHook={useFetchSearch}
+            params={searchFilter}
             renderTableCell={renderCell}
-            searchTerms={searchFilter}
+            type={Type.Manga}
             onSelect={onRowSelected}
           />
         </Card>

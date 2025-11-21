@@ -5,21 +5,20 @@ import { Chip } from "@heroui/chip";
 import { Progress } from "@heroui/progress";
 import { Tooltip } from "@heroui/tooltip";
 import { Card } from "@heroui/card";
-
 import { Button } from "@heroui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import React from "react";
+import { Link } from "@heroui/link";
+import clsx from "clsx";
 
 import { List } from "@/components/list";
-import { useFetchAnimeSearch } from "@/utils/useFetch";
+import { useFetchSearch } from "@/utils/useFetch";
 import { AnimeInterface } from "@/types";
 import { EyeIcon } from "@/components/icons";
 import SearchFilter from "@/components/search-filter";
 import { space, title } from "@/components/primitives";
 import { Type } from "@/types/enums";
-import { Link } from "@heroui/link";
-import clsx from "clsx";
 
 export const AnimeList = () => {
   const animeColumns = [
@@ -100,8 +99,8 @@ export const AnimeList = () => {
         <Tooltip content="Open anime details">
           <Button
             isIconOnly
-            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             as={Link}
+            className="text-default-400 cursor-pointer active:opacity-50 bg-transparent"
             href={`/${Type.Anime}/${row.mal_id}`}
           >
             <EyeIcon />
@@ -135,9 +134,10 @@ export const AnimeList = () => {
         <Card className={clsx(space({ type: "padding" }), "bg-content1/70")}>
           <List
             columns={animeColumns}
-            fetchHook={useFetchAnimeSearch}
+            fetchHook={useFetchSearch}
+            params={searchFilter}
             renderTableCell={renderCell}
-            searchTerms={searchFilter}
+            type={Type.Anime}
             onSelect={onRowSelected}
           />
         </Card>

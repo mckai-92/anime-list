@@ -23,11 +23,12 @@ import { Loader } from "./loader";
 import { CharacterIcon, PhotoIcon, PlayIcon, TvIcon } from "./icons";
 import { DisplayCard } from "./display-card";
 import { Photos } from "./photos";
+import { List } from "./list";
 
 import { BackgroundImageContext } from "@/components/background-image-context";
 import { title, subtitle, space } from "@/components/primitives";
 import { AnimeInterface } from "@/types";
-import { useFetchAnimeRecord, useFetchAnimeCharacters } from "@/utils/useFetch";
+import { useFetchAnimeEpisodes, useFetchAnimeRecord } from "@/utils/useFetch";
 import { Type } from "@/types/enums";
 
 const Row = ({ label, value }: { label: string; value: any }) => {
@@ -40,7 +41,27 @@ const Row = ({ label, value }: { label: string; value: any }) => {
   );
 };
 
-export const AnimeDetails = ({ id }: { id: number | undefined }) => {
+const Episodes = ({ id }: { id: number }) => {
+  const columns = [
+    {
+      field: "title",
+      label: "Episode Title",
+      class_name: "",
+    },
+  ];
+
+  return (
+    <>
+      <List
+        columns={columns}
+        customProps={{ id: id }}
+        fetchHook={useFetchAnimeEpisodes}
+      />
+    </>
+  );
+};
+
+export const AnimeDetails = ({ id }: { id: number }) => {
   const {
     data,
     isLoading,
@@ -49,9 +70,9 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
     data: AnimeInterface;
     isLoading: boolean;
     error: object;
-  } = useFetchAnimeRecord(id);
+  } = useFetchAnimeRecord(id, "full");
 
-  const { data: characterData } = useFetchAnimeCharacters(id);
+  const { data: characterData } = useFetchAnimeRecord(id, "characters");
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -236,7 +257,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                   <Card
                     className={clsx(
                       space({ type: "padding" }),
-                      "bg-background/40"
+                      "bg-background/40",
                     )}
                   >
                     <div className="text-small text-default-500 whitespace-break-spaces">
@@ -272,7 +293,7 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                       space({ type: "padding" }),
                       space({ type: "gap" }),
                       "bg-background/40",
-                      "grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]"
+                      "grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]",
                     )}
                   >
                     {characterData?.map((item: any) => (
@@ -301,10 +322,29 @@ export const AnimeDetails = ({ id }: { id: number | undefined }) => {
                   <Card
                     className={clsx(
                       space({ type: "padding" }),
-                      "bg-background/40"
+                      "bg-background/40",
                     )}
                   >
                     <Photos id={data?.mal_id} type={Type.Anime} />
+                  </Card>
+                </div>
+              </Tab>
+              <Tab
+                title={
+                  <div className="flex items-center space-x-2">
+                    <PhotoIcon />
+                    <span>Episodes</span>
+                  </div>
+                }
+              >
+                <div>
+                  <Card
+                    className={clsx(
+                      space({ type: "padding" }),
+                      "bg-background/40",
+                    )}
+                  >
+                    <Episodes id={id} />
                   </Card>
                 </div>
               </Tab>

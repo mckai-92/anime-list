@@ -72,10 +72,6 @@ export default function SearchFilter({
     setOrderBy("");
     setSort("desc");
   };
-  interface MyObject {
-    [key: string]: string; // Allows indexing with any string, value is string
-    // ... other specific properties
-  }
 
   return (
     <>
@@ -133,7 +129,7 @@ export default function SearchFilter({
                   {data.orderBy[type].map(
                     (o: { key: string; label: string }) => (
                       <SelectItem key={o.key}>{o.label}</SelectItem>
-                    )
+                    ),
                   )}
                 </Select>
 

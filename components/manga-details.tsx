@@ -20,10 +20,7 @@ import { Photos } from "./photos";
 import { BackgroundImageContext } from "@/components/background-image-context";
 import { title, subtitle, space } from "@/components/primitives";
 import { MangaInterface } from "@/types";
-import {
-  useFetchMangaRecord,
-  useFetchMangaCharactersRecord,
-} from "@/utils/useFetch";
+import { useFetchMangaRecord } from "@/utils/useFetch";
 import { Type } from "@/types/enums";
 
 const Row = ({ label, value }: { label: string; value: any }) => {
@@ -36,7 +33,7 @@ const Row = ({ label, value }: { label: string; value: any }) => {
   );
 };
 
-export const MangaDetails = ({ id }: { id: number | undefined }) => {
+export const MangaDetails = ({ id }: { id: number }) => {
   const {
     data,
     isLoading,
@@ -45,9 +42,9 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
     data: MangaInterface;
     isLoading: boolean;
     error: object;
-  } = useFetchMangaRecord(id);
+  } = useFetchMangaRecord(id, "full");
 
-  const { data: characterData } = useFetchMangaCharactersRecord(id);
+  const { data: characterData } = useFetchMangaRecord(id, "characters");
 
   const { setValue: setBackgroundImage } = useContext(BackgroundImageContext);
 
@@ -117,7 +114,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
 
             <div className="text-small text-default-400">
               <Row label="Chapters" value={data?.chapters} />
-              <Row label="Volumns" value={data?.volumes} />
+              <Row label="Volumes" value={data?.volumes} />
               <Row label="Status" value={data?.status} />
               <Row label="Type" value={data?.type} />
               <Row label="Score" value={data?.score} />
@@ -165,7 +162,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
                   <Card
                     className={clsx(
                       space({ type: "padding" }),
-                      "bg-background/40"
+                      "bg-background/40",
                     )}
                   >
                     <div className="text-small text-default-500 whitespace-break-spaces">
@@ -201,7 +198,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
                       space({ type: "padding" }),
                       space({ type: "gap" }),
                       "bg-background/40",
-                      "grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]"
+                      "grid grid-cols-[repeat(auto-fit,minmax(130px,1fr))]",
                     )}
                   >
                     {characterData?.map((item: any) => (
@@ -230,7 +227,7 @@ export const MangaDetails = ({ id }: { id: number | undefined }) => {
                   <Card
                     className={clsx(
                       space({ type: "padding" }),
-                      "bg-background/40"
+                      "bg-background/40",
                     )}
                   >
                     <Photos id={data?.mal_id} type={Type.Manga} />

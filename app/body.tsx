@@ -9,6 +9,7 @@ import { Providers } from "./providers";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import { BackgroundImageContext } from "@/components/background-image-context";
+import { space } from "@/components/primitives";
 
 let bgImage = "";
 
@@ -39,7 +40,12 @@ export const Body = ({ children }: { children: React.ReactNode }) => {
         <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
           <div className="relative flex flex-col h-screen bg-background/70 backdrop-blur-[50px] overflow-auto">
             <Navbar />
-            <main className="container mx-auto max-w-7xl pt-4 px-6 flex-grow flex flex-col">
+            <main
+              className={clsx(
+                "container mx-auto max-w-7xl pt-4 flex-grow flex flex-col",
+                space({ type: "paddingInline" }),
+              )}
+            >
               {<div>{children}</div>}
             </main>
             <footer className="w-full flex items-center justify-center py-3">

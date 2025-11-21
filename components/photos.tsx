@@ -4,12 +4,12 @@ import { Image } from "@heroui/image";
 import { Card } from "@heroui/card";
 import { useEffect, useState } from "react";
 import { Modal, ModalContent, ModalBody, useDisclosure } from "@heroui/modal";
+import clsx from "clsx";
 
 import { itemsGrid, space } from "./primitives";
 
 import { useFetchImages } from "@/utils/useFetch";
 import { ImageInterface } from "@/types";
-import clsx from "clsx";
 
 export const Photos = ({ id, type }: { id: number; type: string }) => {
   let [photos, setPhotos] = useState([]);
