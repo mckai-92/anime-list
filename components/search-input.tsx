@@ -20,6 +20,8 @@ import { useDebouncedInputChange } from "@/utils/useDebouncedInputChange";
 import { Type } from "@/types/enums";
 import { AnimeInterface, CharacterInterface, MangaInterface } from "@/types";
 
+import { useHotkeys } from "react-hotkeys-hook";
+
 export const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebouncedInputChange(searchTerm);
@@ -78,6 +80,20 @@ export const SearchInput = () => {
     </div>
   );
 
+  const openSearch = () => {
+    setSearchTerm("");
+    onSearchModalOpen();
+    setTimeout(() => {
+      searchInput.current?.focus();
+    });
+  };
+
+  useHotkeys("ctrl+k", (e) => {
+    e.preventDefault();
+
+    openSearch();
+  });
+
   return (
     <>
       <Input
@@ -99,12 +115,8 @@ export const SearchInput = () => {
         }
         type="search"
         onFocus={(e) => {
-          setSearchTerm("");
-          onSearchModalOpen();
           e.target.blur();
-          setTimeout(() => {
-            searchInput.current?.focus();
-          });
+          openSearch();
         }}
         onValueChange={setSearchTerm}
       />
@@ -143,7 +155,7 @@ export const SearchInput = () => {
                   onSelectionChange={() => onSearchModalClose()}
                 >
                   {(
-                    item: AnimeInterface & MangaInterface & CharacterInterface,
+                    item: AnimeInterface & MangaInterface & CharacterInterface
                   ) => (
                     <AutocompleteItem
                       key={autoCompleteItemKeyIndex++}
