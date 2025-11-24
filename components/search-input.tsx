@@ -13,14 +13,15 @@ import {
 import { Image } from "@heroui/image";
 import { ReactNode, useRef, useState } from "react";
 import { Button } from "@heroui/button";
+import { Code } from "@heroui/code";
+import { useHotkeys } from "react-hotkeys-hook";
+import { Tooltip } from "@heroui/tooltip";
 
 import { SearchIcon, Check } from "@/components/icons";
 import { useFetchSearchAny } from "@/utils/useFetch";
 import { useDebouncedInputChange } from "@/utils/useDebouncedInputChange";
 import { Type } from "@/types/enums";
 import { AnimeInterface, CharacterInterface, MangaInterface } from "@/types";
-
-import { useHotkeys } from "react-hotkeys-hook";
 
 export const SearchInput = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,30 +97,40 @@ export const SearchInput = () => {
 
   return (
     <>
-      <Input
-        aria-label="Search"
-        className="max-w-xs"
-        classNames={{
-          inputWrapper: "bg-default-100",
-          input: "text-sm",
-        }}
-        endContent={
-          <Kbd className="hidden lg:inline-block" keys={["ctrl"]}>
-            K
-          </Kbd>
+      <Tooltip
+        content={
+          <>
+            <div>
+              Open search bar <Code>ctrl + K</Code>
+            </div>
+          </>
         }
-        labelPlacement="outside"
-        placeholder="Search..."
-        startContent={
-          <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-        }
-        type="search"
-        onFocus={(e) => {
-          e.target.blur();
-          openSearch();
-        }}
-        onValueChange={setSearchTerm}
-      />
+      >
+        <Input
+          aria-label="Search"
+          className="max-w-xs"
+          classNames={{
+            inputWrapper: "bg-default-100",
+            input: "text-sm",
+          }}
+          endContent={
+            <Kbd className="hidden lg:inline-block" keys={["ctrl"]}>
+              K
+            </Kbd>
+          }
+          labelPlacement="outside"
+          placeholder="Search..."
+          startContent={
+            <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
+          }
+          type="search"
+          onFocus={(e) => {
+            e.target.blur();
+            openSearch();
+          }}
+          onValueChange={setSearchTerm}
+        />
+      </Tooltip>
 
       <Modal
         backdrop="blur"
@@ -155,7 +166,7 @@ export const SearchInput = () => {
                   onSelectionChange={() => onSearchModalClose()}
                 >
                   {(
-                    item: AnimeInterface & MangaInterface & CharacterInterface
+                    item: AnimeInterface & MangaInterface & CharacterInterface,
                   ) => (
                     <AutocompleteItem
                       key={autoCompleteItemKeyIndex++}

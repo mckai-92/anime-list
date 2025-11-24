@@ -12,6 +12,7 @@ import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { useState } from "react";
+import { Tooltip } from "@heroui/tooltip";
 
 import { SearchInput } from "./search-input";
 
@@ -63,7 +64,9 @@ export const Navbar = () => {
       >
         <NavbarItem className="hidden sm:flex gap-2">
           <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-            <GithubIcon className="text-default-500" />
+            <Tooltip content="Visit creator GitHub">
+              <GithubIcon className="text-default-500" />
+            </Tooltip>
           </Link>
           <ThemeSwitch />
         </NavbarItem>
@@ -74,7 +77,9 @@ export const Navbar = () => {
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
         <Link isExternal aria-label="Github" href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
+          <Tooltip content="Visit creator GitHub">
+            <GithubIcon className="text-default-500" />
+          </Tooltip>
         </Link>
         <ThemeSwitch />
         <NavbarMenuToggle />

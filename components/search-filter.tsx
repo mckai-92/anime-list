@@ -15,9 +15,11 @@ import { Type } from "@/types/enums";
 const SortButton = ({
   direction,
   onChange,
+  disabled,
 }: {
   direction?: string;
   onChange?: Function;
+  disabled: boolean;
 }) => {
   const [order, setOrder] = useState(direction === "asc" ? true : false);
 
@@ -29,6 +31,7 @@ const SortButton = ({
     <Tooltip content={order ? "Ascending" : "Descending"}>
       <Button
         isIconOnly
+        disabled={disabled}
         onPress={() => {
           setOrder(!order);
         }}
@@ -133,7 +136,11 @@ export default function SearchFilter({
                   )}
                 </Select>
 
-                <SortButton direction={sort} onChange={setSort} />
+                <SortButton
+                  direction={sort}
+                  disabled={!!!orderBy}
+                  onChange={setSort}
+                />
               </div>
 
               <Button onPress={clearFilters}>Clear Filters</Button>
