@@ -17,6 +17,18 @@ Data provider is [Jikan API](https://jikan.moe/) and there is rate limit to all 
 
 ## How to Use
 
+### Clone the repository
+
+```bash
+git clone git@github.com:mckai-92/anime-list.git
+```
+
+### Navigate to project directory
+
+```bash
+cd anime-list
+```
+
 ### Install dependencies
 
 ```bash
